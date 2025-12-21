@@ -1,250 +1,208 @@
-// Main section navigation
-function showSection(sectionId) {
-    // Hide all sections
-    const sections = document.querySelectorAll('.content-section');
-    sections.forEach(section => {
-        section.classList.remove('active');
-    });
+// وظيفة لعرض/إخفاء المقالات الكاملة
+function toggleArticle(articleId) {
+    const article = document.getElementById(articleId);
+    const button = event.target;
     
-    // Show selected section
-    const selectedSection = document.getElementById(sectionId);
-    if (selectedSection) {
-        selectedSection.classList.add('active');
+    if (article.classList.contains('hidden')) {
+        article.classList.remove('hidden');
+        button.textContent = '▲ إخفاء التفاصيل';
+        button.style.backgroundColor = '#666';
         
-        // Update navigation buttons
-        const navButtons = document.querySelectorAll('.nav-btn');
-        navButtons.forEach(btn => {
-            btn.classList.remove('active');
-            if (btn.onclick && btn.onclick.toString().includes(sectionId)) {
-                btn.classList.add('active');
-            }
+        // تمرير سلس للقسم
+        article.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
         });
-        
-        // Scroll to top of section
-        window.scrollTo({
-            top: selectedSection.offsetTop - 100,
-            behavior: 'smooth'
-        });
-    }
-}
-
-// Quiz functionality
-function showQuizResult() {
-    const resultElement = document.getElementById('quiz-result');
-    const answers = [
-        document.querySelector('input[name="q1"]:checked'),
-        document.querySelector('input[name="q2"]:checked'),
-        document.querySelector('input[name="q3"]:checked')
-    ];
-    
-    const answered = answers.filter(answer => answer !== null).length;
-    
-    if (answered === 0) {
-        resultElement.textContent = "النتيجة: إذا أكملت الاختبار، أنت غير جاهز لمعرفة النتيجة.";
-        resultElement.style.color = "#b00020";
-    } else if (answered === 3) {
-        const q1Answer = document.querySelector('input[name="q1"]:checked').nextSibling.textContent.trim();
-        const q2Answer = document.querySelector('input[name="q2"]:checked').nextSibling.textContent.trim();
-        const q3Answer = document.querySelector('input[name="q3"]:checked').nextSibling.textContent.trim();
-        
-        if (q1Answer === "تعرف أنه كاذب وتكمل سكرول" && 
-            q2Answer === "تفهم القصة كاملة دون سماعها" && 
-            q3Answer === "تعيد تقييم مفهوم العدالة الكونية") {
-            resultElement.textContent = "مبروك! أنت قارئ ناضج جداً (أو مجرد متهكم محترف).";
-            resultElement.style.color = "#4caf50";
-        } else {
-            resultElement.textContent = "أنت شخص عادي، وهذا ليس مدحاً ولا ذماً.";
-            resultElement.style.color = "#666";
-        }
     } else {
-        resultElement.textContent = "النتيجة: إذا أكملت الاختبار، أنت غير جاهز لمعرفة النتيجة.";
-        resultElement.style.color = "#b00020";
+        article.classList.add('hidden');
+        button.textContent = '▶︎ اقرأ المزيد';
+        button.style.backgroundColor = '';
     }
 }
 
-// Study quiz functionality
-document.querySelectorAll('input[name="study"]').forEach(radio => {
-    radio.addEventListener('change', function() {
-        const result = this.nextSibling.textContent.trim();
-        if (result === "التسعة") {
-            alert("مبروك! أنت ضمن الـ90٪ الذين يعتقدون أنهم استثناء. (هذا ليس مدحاً)");
-        } else if (result === "العاشر") {
-            alert("تهانينا! أنت تعترف بأنك مخطئ. وهذا بحد ذاته قد يجعلك أذكى من المعدل.");
-        }
-    });
-});
-
-// Initialize the page
+// تهيئة الصفحة
 document.addEventListener('DOMContentLoaded', function() {
-    // Show first section by default
-    showSection('front-page');
-    
-    // Add click handlers to all navigation buttons
-    document.querySelectorAll('.nav-btn').forEach(button => {
+    // جعل جميع أزرار "اقرأ المزيد" تفاعلية
+    const readMoreButtons = document.querySelectorAll('.read-more-btn');
+    readMoreButtons.forEach(button => {
         button.addEventListener('click', function() {
-            // Remove active class from all buttons
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            // Add active class to clicked button
-            this.classList.add('active');
+            // تحديث النص في جميع الأزرار
+            if (this.textContent.includes('إخفاء')) {
+                this.textContent = '▶︎ اقرأ المزيد';
+                this.style.backgroundColor = '';
+            }
         });
     });
     
-    // Handle writing space in reader challenge
-    const writingSpace = document.querySelector('.writing-space textarea');
-    if (writingSpace) {
-        writingSpace.addEventListener('focus', function() {
-            if (this.value === '') {
-                this.placeholder = "اكتب تمنيتك هنا... ثم انساها";
-            }
+    // تفاعل مع صندوق الكتابة
+    const textarea = document.querySelector('.writing-space textarea');
+    if (textarea) {
+        textarea.addEventListener('focus', function() {
+            this.style.borderColor = '#2196f3';
+            this.style.boxShadow = '0 0 0 3px rgba(33, 150, 243, 0.2)';
         });
         
-        writingSpace.addEventListener('blur', function() {
-            if (this.value === '') {
-                this.placeholder = "اكتب هنا...";
-            }
+        textarea.addEventListener('blur', function() {
+            this.style.borderColor = '#e0e0e0';
+            this.style.boxShadow = 'none';
         });
-    }
-    
-    // Add print functionality
-    const printButtons = document.querySelectorAll('.print-btn');
-    printButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            window.print();
+        
+        // حفظ المكتوب في localStorage
+        textarea.addEventListener('input', function() {
+            localStorage.setItem('readerWish', this.value);
         });
-    });
-    
-    // Share functionality
-    const shareButtons = document.querySelectorAll('.share-btn');
-    shareButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            if (navigator.share) {
-                navigator.share({
-                    title: 'جريدة الهرج والمرج',
-                    text: '"كل ما لم يحدث نقدّمه لكم بالتفاصيل... مهم لك"',
-                    url: window.location.href
-                });
-            } else {
-                alert('شارك الرابط: ' + window.location.href);
-            }
-        });
-    });
-    
-    // Save for later functionality
-    const saveButtons = document.querySelectorAll('.save-btn');
-    saveButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const articleTitle = this.closest('.article-actions').previousElementSibling.querySelector('h4').textContent;
-            localStorage.setItem('savedArticle', articleTitle);
-            alert('تم حفظ المقال للقراءة لاحقاً: ' + articleTitle);
-        });
-    });
-});
-
-// Keyboard navigation
-document.addEventListener('keydown', function(e) {
-    const activeSection = document.querySelector('.content-section.active');
-    if (!activeSection) return;
-    
-    const sectionOrder = ['front-page', 'investigations', 'relationships', 'entertainment', 'columns', 'ads', 'more-content', 'batman', 'final', 'games', 'editorial'];
-    const currentIndex = sectionOrder.indexOf(activeSection.id);
-    
-    if (e.key === 'ArrowRight' && currentIndex < sectionOrder.length - 1) {
-        e.preventDefault();
-        showSection(sectionOrder[currentIndex + 1]);
-    } else if (e.key === 'ArrowLeft' && currentIndex > 0) {
-        e.preventDefault();
-        showSection(sectionOrder[currentIndex - 1]);
-    } else if (e.key === 'Home') {
-        e.preventDefault();
-        showSection('front-page');
-    } else if (e.key === 'End') {
-        e.preventDefault();
-        showSection('editorial');
-    }
-});
-
-// Add visual feedback for interactive elements
-document.querySelectorAll('button, .ad-box, .game-box').forEach(element => {
-    element.addEventListener('mousedown', function() {
-        this.style.transform = 'scale(0.98)';
-    });
-    
-    element.addEventListener('mouseup', function() {
-        this.style.transform = 'scale(1)';
-    });
-    
-    element.addEventListener('mouseleave', function() {
-        this.style.transform = 'scale(1)';
-    });
-});
-
-// Handle images (placeholder functionality)
-document.querySelectorAll('.article-image').forEach(image => {
-    image.addEventListener('click', function() {
-        const caption = this.querySelector('.image-caption');
-        if (caption) {
-            caption.style.display = caption.style.display === 'none' ? 'block' : 'none';
-        }
-    });
-});
-
-// Auto-scroll for breaking news
-const breakingNews = document.querySelector('.breaking-news');
-if (breakingNews) {
-    let scrollPosition = 0;
-    const scrollSpeed = 1;
-    
-    function scrollBreakingNews() {
-        if (breakingNews.scrollWidth > breakingNews.clientWidth) {
-            scrollPosition += scrollSpeed;
-            if (scrollPosition >= breakingNews.scrollWidth - breakingNews.clientWidth) {
-                scrollPosition = 0;
-            }
-            breakingNews.scrollLeft = scrollPosition;
+        
+        // استعادة المكتوب إن وجد
+        const savedWish = localStorage.getItem('readerWish');
+        if (savedWish) {
+            textarea.value = savedWish;
         }
     }
     
-    setInterval(scrollBreakingNews, 50);
+    // إضافة تأثير عند تمرير الماوس على الإعلانات
+    const adBoxes = document.querySelectorAll('.ad-box');
+    adBoxes.forEach(box => {
+        box.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px)';
+        });
+        
+        box.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+    
+    // إضافة تأثير النقر على المقالات
+    const articles = document.querySelectorAll('.newspaper-article');
+    articles.forEach(article => {
+        article.addEventListener('click', function(e) {
+            if (!e.target.closest('.read-more-btn') && !e.target.closest('.ad-box')) {
+                this.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.15)';
+                setTimeout(() => {
+                    this.style.boxShadow = 'var(--newspaper-shadow)';
+                }, 300);
+            }
+        });
+    });
+    
+    // تحديث الوقت في الترويسة
+    function updateDateTime() {
+        const now = new Date();
+        const dateOptions = { 
+            weekday: 'long', 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        };
+        const timeElement = document.querySelector('.date');
+        if (timeElement) {
+            const arabicDate = now.toLocaleDateString('ar-EG', dateOptions);
+            timeElement.textContent = arabicDate;
+        }
+    }
+    
+    // تحديث الوقت كل دقيقة
+    updateDateTime();
+    setInterval(updateDateTime, 60000);
+    
+    // إضافة رسالة ترحيب في الكونسول
+    console.log('%c📰 جريدة الهرج والمرج 📰', 'color: #b00020; font-size: 18px; font-weight: bold;');
+    console.log('%c"كل ما لم يحدث نقدّمه لكم بالتفاصيل... مهم لك"', 'color: #666; font-style: italic;');
+    
+    // اختصار لوحة المفاتيح للتنقل
+    document.addEventListener('keydown', function(e) {
+        // Ctrl/Cmd + 1-4 للقفز للمقالات
+        if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '4') {
+            e.preventDefault();
+            const articleId = 'article' + e.key;
+            const article = document.getElementById(articleId);
+            if (article) {
+                article.scrollIntoView({ behavior: 'smooth' });
+                
+                // إبراز المقال
+                article.style.backgroundColor = '#fff9e6';
+                setTimeout(() => {
+                    article.style.backgroundColor = '';
+                }, 2000);
+            }
+        }
+        
+        // مسافة لإظهار/إخفاء المقال الحالي تحت المؤشر
+        if (e.code === 'Space' && !e.target.matches('textarea, input')) {
+            e.preventDefault();
+            const activeArticle = document.elementFromPoint(
+                window.innerWidth / 2, 
+                window.innerHeight / 2
+            )?.closest('.newspaper-article');
+            
+            if (activeArticle) {
+                const articleId = activeArticle.id + '-full';
+                const button = activeArticle.querySelector('.read-more-btn');
+                if (button) button.click();
+            }
+        }
+    });
+    
+    // تأثير تحميل الصفحة
+    window.addEventListener('load', function() {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+        
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+        
+        // إظهار إشعار ترحيبي
+        setTimeout(() => {
+            console.log('%c✨ تم تحميل جريدة الهرج والمرج بنجاح!', 'color: #4caf50; font-size: 14px;');
+        }, 500);
+    });
+});
+
+// وظيفة لمشاركة المقال
+function shareArticle(articleNumber) {
+    const articleTitles = {
+        1: "طالب طب بيطري في عامه الثالث ينجو من سنة أولى... للمرة الثانية",
+        2: "العلاقة العابرة للقارات: كيف صمدت جنين في ألمانيا",
+        3: "إشاعة: مواطن يخضع لجلسات كهرباء في مستشفى الرشيد",
+        4: "أحمد... الرجل الذي يظن نفسه باتمان"
+    };
+    
+    const title = articleTitles[articleNumber] || 'جريدة الهرج والمرج';
+    const url = window.location.href + '#article' + articleNumber;
+    
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: 'اقرأ هذا المقال المميز في جريدة الهرج والمرج',
+            url: url
+        });
+    } else {
+        // نسخ الرابط
+        navigator.clipboard.writeText(url).then(() => {
+            alert('✅ تم نسخ رابط المقال: ' + title);
+        });
+    }
 }
 
-// Add newspaper sound effects
-function playNewspaperSound() {
-    const paperSound = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ');
-    paperSound.volume = 0.3;
-    paperSound.play().catch(e => console.log("Sound play failed:", e));
+// وظيفة لحفظ المقال
+function saveArticle(articleNumber) {
+    const savedArticles = JSON.parse(localStorage.getItem('savedArticles') || '[]');
+    if (!savedArticles.includes(articleNumber)) {
+        savedArticles.push(articleNumber);
+        localStorage.setItem('savedArticles', JSON.stringify(savedArticles));
+        alert('📌 تم حفظ المقال للقراءة لاحقاً');
+    } else {
+        alert('ℹ️ المقال محفوظ مسبقاً');
+    }
 }
 
-// Play sound on section change
-const originalShowSection = showSection;
-showSection = function(sectionId) {
-    playNewspaperSound();
-    return originalShowSection(sectionId);
-};
-
-// Handle phone number clicks
-document.querySelectorAll('.phone-number, .large-phone').forEach(element => {
-    element.addEventListener('click', function() {
-        const phoneNumber = this.textContent.replace(/\D/g, '');
-        if (confirm(`هل تريد الاتصال بالرقم ${phoneNumber}؟`)) {
-            window.location.href = `tel:${phoneNumber}`;
-        }
-    });
-});
-
-// Easter egg: Secret message
-let konamiCode = [];
-const secretCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-
-document.addEventListener('keydown', function(e) {
-    konamiCode.push(e.key);
-    if (konamiCode.length > secretCode.length) {
-        konamiCode.shift();
+// وظيفة للتحقق من المقالات المحفوظة
+function showSavedArticles() {
+    const savedArticles = JSON.parse(localStorage.getItem('savedArticles') || '[]');
+    if (savedArticles.length > 0) {
+        console.log('📚 المقالات المحفوظة:', savedArticles);
     }
-    
-    if (konamiCode.join(',') === secretCode.join(',')) {
-        alert('🎉 مبروك! لقد وجدت الرسالة السرية: "هذا العدد أُنجز بنية صادقة... تقريباً."');
-        konamiCode = [];
-    }
-});
+}
+
+// استدعاء عند التحميل
+showSavedArticles();
