@@ -20,6 +20,53 @@ function toggleArticle(articleId) {
     }
 }
 
+// وظيفة لعرض نتيجة اختبار
+function showQuizResult(quizNumber) {
+    const quizResult = document.getElementById(`quiz-result-${quizNumber}`);
+    if (!quizResult) return;
+    
+    const answers = {
+        1: document.querySelector(`input[name="quiz1-q1"]:checked`),
+        2: document.querySelector(`input[name="quiz1-q2"]:checked`),
+        3: document.querySelector(`input[name="quiz1-q3"]:checked`)
+    };
+    
+    const answered = Object.values(answers).filter(answer => answer !== null).length;
+    
+    if (answered === 0) {
+        quizResult.textContent = "النتيجة: إذا أكملت الاختبار، أنت غير جاهز لمعرفة النتيجة.";
+        quizResult.style.color = "#b00020";
+    } else if (answered === 3) {
+        quizResult.textContent = "مبروك! أنت قارئ ناضج جداً (أو مجرد متهكم محترف).";
+        quizResult.style.color = "#4caf50";
+    } else {
+        quizResult.textContent = "أنت شخص عادي، وهذا ليس مدحاً ولا ذماً.";
+        quizResult.style.color = "#666";
+    }
+    
+    quizResult.classList.remove('hidden');
+}
+
+// وظيفة لعرض نتيجة دراسة
+function showStudyResult() {
+    const selected = document.querySelector('input[name="study"]:checked');
+    const resultElement = document.getElementById('study-result');
+    
+    if (!selected || !resultElement) return;
+    
+    const answer = selected.nextSibling.textContent.trim();
+    
+    if (answer === "التسعة") {
+        resultElement.textContent = "مبروك! أنت ضمن الـ90٪ الذين يعتقدون أنهم استثناء. (هذا ليس مدحاً)";
+        resultElement.style.color = "#b00020";
+    } else if (answer === "العاشر") {
+        resultElement.textContent = "تهانينا! أنت تعترف بأنك مخطئ. وهذا بحد ذاته قد يجعلك أذكى من المعدل.";
+        resultElement.style.color = "#4caf50";
+    }
+    
+    resultElement.classList.remove('hidden');
+}
+
 // تهيئة الصفحة
 document.addEventListener('DOMContentLoaded', function() {
     // جعل جميع أزرار "اقرأ المزيد" تفاعلية
@@ -59,28 +106,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // إضافة تأثير عند تمرير الماوس على الإعلانات
-    const adBoxes = document.querySelectorAll('.ad-box');
-    adBoxes.forEach(box => {
-        box.addEventListener('mouseenter', function() {
+    // إضافة تأثير عند تمرير الماوس على العناصر التفاعلية
+    const interactiveElements = document.querySelectorAll('.ad-box, .column-box, .game-box, .special-box');
+    interactiveElements.forEach(element => {
+        element.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-5px)';
         });
         
-        box.addEventListener('mouseleave', function() {
+        element.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
-        });
-    });
-    
-    // إضافة تأثير النقر على المقالات
-    const articles = document.querySelectorAll('.newspaper-article');
-    articles.forEach(article => {
-        article.addEventListener('click', function(e) {
-            if (!e.target.closest('.read-more-btn') && !e.target.closest('.ad-box')) {
-                this.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.15)';
-                setTimeout(() => {
-                    this.style.boxShadow = 'var(--newspaper-shadow)';
-                }, 300);
-            }
         });
     });
     
@@ -108,36 +142,15 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('%c📰 جريدة الهرج والمرج 📰', 'color: #b00020; font-size: 18px; font-weight: bold;');
     console.log('%c"كل ما لم يحدث نقدّمه لكم بالتفاصيل... مهم لك"', 'color: #666; font-style: italic;');
     
-    // اختصار لوحة المفاتيح للتنقل
+    // اختصار لوحة المفاتيح للتنقل بين الصفحات
     document.addEventListener('keydown', function(e) {
-        // Ctrl/Cmd + 1-4 للقفز للمقالات
-        if ((e.ctrlKey || e.metaKey) && e.key >= '1' && e.key <= '4') {
+        // Alt + 1-4 للقفز بين الصفحات
+        if (e.altKey && e.key >= '1' && e.key <= '4') {
             e.preventDefault();
-            const articleId = 'article' + e.key;
-            const article = document.getElementById(articleId);
-            if (article) {
-                article.scrollIntoView({ behavior: 'smooth' });
-                
-                // إبراز المقال
-                article.style.backgroundColor = '#fff9e6';
-                setTimeout(() => {
-                    article.style.backgroundColor = '';
-                }, 2000);
-            }
-        }
-        
-        // مسافة لإظهار/إخفاء المقال الحالي تحت المؤشر
-        if (e.code === 'Space' && !e.target.matches('textarea, input')) {
-            e.preventDefault();
-            const activeArticle = document.elementFromPoint(
-                window.innerWidth / 2, 
-                window.innerHeight / 2
-            )?.closest('.newspaper-article');
-            
-            if (activeArticle) {
-                const articleId = activeArticle.id + '-full';
-                const button = activeArticle.querySelector('.read-more-btn');
-                if (button) button.click();
+            const pages = ['index.html', 'columns.html', 'entertainment.html', 'special.html'];
+            const pageIndex = parseInt(e.key) - 1;
+            if (pages[pageIndex]) {
+                window.location.href = pages[pageIndex];
             }
         }
     });
@@ -206,3 +219,26 @@ function showSavedArticles() {
 
 // استدعاء عند التحميل
 showSavedArticles();
+
+// Easter egg: Secret message
+let konamiCode = [];
+const secretCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+
+document.addEventListener('keydown', function(e) {
+    konamiCode.push(e.key);
+    if (konamiCode.length > secretCode.length) {
+        konamiCode.shift();
+    }
+    
+    if (konamiCode.join(',') === secretCode.join(',')) {
+        alert('🎉 مبروك! لقد وجدت الرسالة السرية: "هذا العدد أُنجز بنية صادقة... تقريباً."');
+        konamiCode = [];
+    }
+});
+
+// وظيفة لنسخ رقم الهاتف
+function copyPhoneNumber(phoneNumber) {
+    navigator.clipboard.writeText(phoneNumber).then(() => {
+        alert('📞 تم نسخ الرقم: ' + phoneNumber);
+    });
+}
