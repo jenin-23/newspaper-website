@@ -2,7 +2,6 @@
 (function () {
   "use strict";
 
-  // اقرأ المزيد / إخفاء التفاصيل
   document.addEventListener("click", (e) => {
     const btn = e.target.closest("[data-toggle]");
     if (!btn) return;
@@ -24,7 +23,6 @@
     }
   });
 
-  // نتائج الاختبارات
   const quizLogic = (quizNumber) => {
     const out = document.getElementById(`quiz-result-${quizNumber}`);
     if (!out) return;
@@ -38,7 +36,6 @@
       .filter(Boolean).length;
 
     out.removeAttribute("hidden");
-
     if (answered === 0) {
       out.textContent = "النتيجة: إذا أكملت الاختبار، أنت غير جاهز لمعرفة النتيجة.";
       out.dataset.tone = "warn";
@@ -57,7 +54,6 @@
     quizLogic(parseInt(btn.getAttribute("data-quiz-result"), 10));
   });
 
-  // عدّاد الصبر
   let counter = 0;
   const counterBtn = document.getElementById("counter-btn");
   const counterDisplay = document.getElementById("counter-display");
@@ -65,21 +61,18 @@
     counterBtn.addEventListener("click", () => {
       counter += 1;
       counterDisplay.textContent = String(counter);
-
       if (counter === 10) alert("🎖️ وصلت لمستوى الصبر العادي");
       if (counter === 50) alert("🏆 وصلت لمستوى صبر جنين (نسخة مبكرة)");
       if (counter === 100) alert("👑 أنت أسطورة الصبر! حتى أحمد سينزل من البيت لك");
     });
   }
 
-  // حفظ مربع الكتابة
   const wish = document.getElementById("readerWish");
   if (wish) {
     wish.value = localStorage.getItem("readerWish") || "";
     wish.addEventListener("input", () => localStorage.setItem("readerWish", wish.value));
   }
 
-  // Alt + 1-4 للتنقل
   document.addEventListener("keydown", (e) => {
     if (!e.altKey) return;
     const map = { "1": "index.html", "2": "columns.html", "3": "entertainment.html", "4": "special.html" };
@@ -88,7 +81,6 @@
     window.location.href = map[e.key];
   });
 
-  // Konami easter egg
   const secret = ["ArrowUp","ArrowUp","ArrowDown","ArrowDown","ArrowLeft","ArrowRight","ArrowLeft","ArrowRight","b","a"];
   let buffer = [];
   document.addEventListener("keydown", (e) => {
@@ -100,7 +92,6 @@
     }
   });
 
-  // نسخ رقم الهاتف
   window.copyPhoneNumber = async (phoneNumber) => {
     try {
       await navigator.clipboard.writeText(phoneNumber);
