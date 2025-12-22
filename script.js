@@ -25,18 +25,17 @@ function showQuizResult(quizNumber) {
     const quizResult = document.getElementById(`quiz-result-${quizNumber}`);
     if (!quizResult) return;
     
-    const answers = {
-        1: document.querySelector(`input[name="quiz1-q1"]:checked`),
-        2: document.querySelector(`input[name="quiz1-q2"]:checked`),
-        3: document.querySelector(`input[name="quiz1-q3"]:checked`)
-    };
+    let answered = 0;
+    const inputs = document.querySelectorAll(`input[name^="quiz${quizNumber}-"]`);
     
-    const answered = Object.values(answers).filter(answer => answer !== null).length;
+    inputs.forEach(input => {
+        if (input.checked) answered++;
+    });
     
     if (answered === 0) {
         quizResult.textContent = "النتيجة: إذا أكملت الاختبار، أنت غير جاهز لمعرفة النتيجة.";
         quizResult.style.color = "#b00020";
-    } else if (answered === 3) {
+    } else if (answered >= 2) {
         quizResult.textContent = "مبروك! أنت قارئ ناضج جداً (أو مجرد متهكم محترف).";
         quizResult.style.color = "#4caf50";
     } else {
@@ -54,12 +53,12 @@ function showStudyResult() {
     
     if (!selected || !resultElement) return;
     
-    const answer = selected.nextSibling.textContent.trim();
+    const answer = selected.value;
     
-    if (answer === "التسعة") {
+    if (answer === "nine") {
         resultElement.textContent = "مبروك! أنت ضمن الـ90٪ الذين يعتقدون أنهم استثناء. (هذا ليس مدحاً)";
         resultElement.style.color = "#b00020";
-    } else if (answer === "العاشر") {
+    } else if (answer === "ten") {
         resultElement.textContent = "تهانينا! أنت تعترف بأنك مخطئ. وهذا بحد ذاته قد يجعلك أذكى من المعدل.";
         resultElement.style.color = "#4caf50";
     }
@@ -67,15 +66,39 @@ function showStudyResult() {
     resultElement.classList.remove('hidden');
 }
 
+// عداد لاختبار الصبر
+let counter = 0;
+function incrementCounter() {
+    counter++;
+    const display = document.getElementById('counter-display');
+    if (display) {
+        display.textContent = counter;
+        
+        if (counter === 10) {
+            alert('🎖️ وصلت لمستوى الصبر العادي');
+        } else if (counter === 50) {
+            alert('🏆 وصلت لمستوى صبر جنين (نسخة مبكرة)');
+        } else if (counter === 100) {
+            alert('👑 أنت أسطورة الصبر! حتى أحمد سينزل من البيت لك');
+        }
+    }
+}
+
 // تهيئة الصفحة
 document.addEventListener('DOMContentLoaded', function() {
     // جعل جميع أزرار "اقرأ المزيد" تفاعلية
     const readMoreButtons = document.querySelectorAll('.read-more-btn');
     readMoreButtons.forEach(button => {
+        const originalText = button.textContent;
         button.addEventListener('click', function() {
-            // تحديث النص في جميع الأزرار
-            if (this.textContent.includes('إخفاء')) {
-                this.textContent = '▶︎ اقرأ المزيد';
+            const targetId = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            const target = document.getElementById(targetId);
+            
+            if (target.classList.contains('hidden')) {
+                this.textContent = '▲ إخفاء التفاصيل';
+                this.style.backgroundColor = '#666';
+            } else {
+                this.textContent = originalText;
                 this.style.backgroundColor = '';
             }
         });
@@ -121,22 +144,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // تحديث الوقت في الترويسة
     function updateDateTime() {
         const now = new Date();
-        const dateOptions = { 
-            weekday: 'long', 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        };
-        const timeElement = document.querySelector('.date');
-        if (timeElement) {
-            const arabicDate = now.toLocaleDateString('ar-EG', dateOptions);
-            timeElement.textContent = arabicDate;
-        }
+        const arabicDate = now.toLocaleDateString('ar-SA', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        const timeElements = document.querySelectorAll('.date');
+        timeElements.forEach(element => {
+            element.textContent = arabicDate;
+        });
     }
     
-    // تحديث الوقت كل دقيقة
+    // تحديث التاريخ عند التحميل
     updateDateTime();
-    setInterval(updateDateTime, 60000);
     
     // إضافة رسالة ترحيب في الكونسول
     console.log('%c📰 جريدة الهرج والمرج 📰', 'color: #b00020; font-size: 18px; font-weight: bold;');
@@ -171,55 +193,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// وظيفة لمشاركة المقال
-function shareArticle(articleNumber) {
-    const articleTitles = {
-        1: "طالب طب بيطري في عامه الثالث ينجو من سنة أولى... للمرة الثانية",
-        2: "العلاقة العابرة للقارات: كيف صمدت جنين في ألمانيا",
-        3: "إشاعة: مواطن يخضع لجلسات كهرباء في مستشفى الرشيد",
-        4: "أحمد... الرجل الذي يظن نفسه باتمان"
-    };
-    
-    const title = articleTitles[articleNumber] || 'جريدة الهرج والمرج';
-    const url = window.location.href + '#article' + articleNumber;
-    
-    if (navigator.share) {
-        navigator.share({
-            title: title,
-            text: 'اقرأ هذا المقال المميز في جريدة الهرج والمرج',
-            url: url
-        });
-    } else {
-        // نسخ الرابط
-        navigator.clipboard.writeText(url).then(() => {
-            alert('✅ تم نسخ رابط المقال: ' + title);
-        });
-    }
-}
-
-// وظيفة لحفظ المقال
-function saveArticle(articleNumber) {
-    const savedArticles = JSON.parse(localStorage.getItem('savedArticles') || '[]');
-    if (!savedArticles.includes(articleNumber)) {
-        savedArticles.push(articleNumber);
-        localStorage.setItem('savedArticles', JSON.stringify(savedArticles));
-        alert('📌 تم حفظ المقال للقراءة لاحقاً');
-    } else {
-        alert('ℹ️ المقال محفوظ مسبقاً');
-    }
-}
-
-// وظيفة للتحقق من المقالات المحفوظة
-function showSavedArticles() {
-    const savedArticles = JSON.parse(localStorage.getItem('savedArticles') || '[]');
-    if (savedArticles.length > 0) {
-        console.log('📚 المقالات المحفوظة:', savedArticles);
-    }
-}
-
-// استدعاء عند التحميل
-showSavedArticles();
-
 // Easter egg: Secret message
 let konamiCode = [];
 const secretCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -240,5 +213,7 @@ document.addEventListener('keydown', function(e) {
 function copyPhoneNumber(phoneNumber) {
     navigator.clipboard.writeText(phoneNumber).then(() => {
         alert('📞 تم نسخ الرقم: ' + phoneNumber);
+    }).catch(err => {
+        console.error('خطأ في النسخ:', err);
     });
 }
