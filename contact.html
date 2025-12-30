@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📰</text></svg>">
+<link rel="stylesheet" href="assets/css/style.css?v=4" />
+<script defer src="assets/js/include.js?v=4"></script>
+<script defer src="assets/js/app.js?v=4"></script>
+<title>اتصل بنا - جريدة الهرج والمرج</title>
+</head>
+<body class="fade-in">
+<div id="site-header"></div>
+<div id="site-nav" data-active="index"></div>
+
+<main class="layout">
+  <section class="content">
+    <section class="page-intro">
+      <h2 class="page-title">اتصل بنا</h2>
+      <p class="page-sub">ملاحظة: الرسائل تُحفظ محليًا عندك (LocalStorage)… يعني وصلت “للجريدة” بس الجريدة داخل جهازك.</p>
+    </section>
+
+    <article class="article">
+      <header class="article-header">
+        <span class="badge">نموذج مراسلة</span>
+        <h2>“اكتب رسالتك… واحنا بنحاول ما ننام”</h2>
+        <p class="source">قسم العلاقات العامة — مش دايمًا صاحيين</p>
+      </header>
+
+      <form id="contact-form" class="article-body">
+        <p>
+          <label>
+            <strong>اسمك (اختياري):</strong><br />
+            <input id="contact-name" class="writing-space" style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(0,0,0,.14); background: var(--paper-2); color: var(--ink);" placeholder="قارئ مجهول…" />
+          </label>
+        </p>
+
+        <p>
+          <label>
+            <strong>عنوان الرسالة (اختياري):</strong><br />
+            <input id="contact-topic" class="writing-space" style="width:100%; padding:12px; border-radius:12px; border:1px solid rgba(0,0,0,.14); background: var(--paper-2); color: var(--ink);" placeholder="اقتراح / شكوى / إشاعة جديدة…" />
+          </label>
+        </p>
+
+        <p>
+          <label>
+            <strong>الرسالة (مطلوبة):</strong><br />
+            <textarea id="contact-message" placeholder="اكتب… وبلاش تختصر كل شيء بكلمة: انداري." rows="6"></textarea>
+          </label>
+        </p>
+
+        <button class="btn" type="submit">إرسال (محلياً)</button>
+        <div id="contact-result" class="result" hidden></div>
+
+        <p class="note">
+          تنويه: إذا بدك إرسال حقيقي على إيميل/واتساب — بنضيفه لاحقًا.
+        </p>
+      </form>
+    </article>
+  </section>
+
+  <aside class="sidebar" aria-label="شريط جانبي">
+    <div class="ad-card contact-ad">
+      <h3>طرق أخرى للتواصل</h3>
+      <p class="large-phone" dir="ltr">+962791439308</p>
+      <button class="pill-btn" type="button" onclick="copyPhoneNumber('+962791439308')">نسخ الرقم</button>
+      <div class="divider"></div>
+      <p class="small-text">إذا ما ردّينا… مش تجاهل… يمكن نوم.</p>
+    </div>
+  </aside>
+</main>
+
+<div id="site-footer"></div>
+</body>
+</html>

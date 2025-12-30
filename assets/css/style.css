@@ -10,8 +10,25 @@
   --border: rgba(0,0,0,.12);
   --shadow: 0 10px 30px rgba(0,0,0,.07);
   --radius: 14px;
+
+  /* إضافات */
+  --tint: transparent;
+  --paper-2: rgba(255,255,255,.92);
 }
 
+/* ====== فلتر النظارة الصفراء (Night Reader) ====== */
+body.night-glasses{
+  --bg: #0f1115;
+  --paper: rgba(255,255,255,.06);
+  --paper-2: rgba(255,255,255,.08);
+  --ink: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.70);
+  --border: rgba(255,255,255,.12);
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --tint: rgba(255, 214, 102, .10);
+}
+
+/* ====== أساسياتك كما هي ====== */
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
@@ -20,6 +37,16 @@ body{
   color:var(--ink);
   font-family: "Noto Naskh Arabic", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   line-height:1.85;
+}
+
+/* Tint overlay (للنظارة الصفراء) */
+body::before{
+  content:"";
+  position: fixed;
+  inset:0;
+  pointer-events:none;
+  background: var(--tint);
+  z-index: 0;
 }
 
 .fade-in{opacity:0; animation: fade .6s ease forwards}
@@ -31,6 +58,7 @@ h1,h2,h3,h4{margin:0 0 10px; line-height:1.35}
 ul,ol{margin: 12px 0 18px; padding-right: 22px}
 li{margin: 6px 0}
 
+/* ====== باقي ستايلك كما هو (بدون حذف) ====== */
 .masthead{
   max-width: 1200px;
   margin: 24px auto 10px;
@@ -39,6 +67,8 @@ li{margin: 6px 0}
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  position: relative;
+  z-index: 1;
 }
 .masthead-top{border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 12px}
 .meta{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; color:var(--muted); font-size: 14px}
@@ -90,6 +120,11 @@ li{margin: 6px 0}
   font-weight:700;
   font-size:14px;
 }
+body.night-glasses .nav-link{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.10);
+  color: rgba(255,255,255,.86);
+}
 .nav-link:hover{transform: translateY(-1px); background: rgba(164,0,30,.08); border-color: rgba(164,0,30,.22)}
 .nav-link.active{background: rgba(164,0,30,.12); border-color: rgba(164,0,30,.28); color: var(--accent)}
 
@@ -100,6 +135,8 @@ li{margin: 6px 0}
   display:grid;
   grid-template-columns: 1fr 320px;
   gap: 28px;
+  position: relative;
+  z-index: 1;
 }
 @media (max-width: 980px){
   .layout{grid-template-columns: 1fr}
@@ -158,6 +195,7 @@ li{margin: 6px 0}
   margin: 12px 0 16px;
   color: rgba(0,0,0,.78);
 }
+body.night-glasses .quote-box{background: rgba(255,255,255,.06); color: rgba(255,255,255,.86)}
 
 .page-intro{
   background: var(--paper);
@@ -180,6 +218,7 @@ li{margin: 6px 0}
 
 .card{padding: 18px}
 .card h3{color: rgba(0,0,0,.85)}
+body.night-glasses .card h3{color: rgba(255,255,255,.92)}
 
 .ad-card{padding: 18px; margin-bottom: 16px}
 .ad-card h3{margin-bottom: 10px; font-size: 18px}
@@ -203,6 +242,8 @@ li{margin: 6px 0}
   resize: vertical;
   min-height: 110px;
   outline: none;
+  background: var(--paper-2);
+  color: var(--ink);
 }
 .writing-space textarea:focus{border-color: rgba(33,150,243,.55); box-shadow: 0 0 0 4px rgba(33,150,243,.12)}
 
@@ -214,6 +255,11 @@ li{margin: 6px 0}
   border-radius: 999px;
   cursor:pointer;
   font-weight:800;
+}
+body.night-glasses .pill-btn{
+  border-color: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.88);
 }
 .pill-btn:hover{background: rgba(0,0,0,.07)}
 
@@ -228,6 +274,11 @@ li{margin: 6px 0}
   margin: 14px 0;
   color: rgba(0,0,0,.55);
   font-style: italic;
+}
+body.night-glasses .silence-box{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.18);
+  color: rgba(255,255,255,.70);
 }
 
 .quiz label{
@@ -277,10 +328,117 @@ li{margin: 6px 0}
   border: 1px solid rgba(0,0,0,.10);
 }
 
+/* ====== إضافات: فهرس داخل الصفحة ====== */
+.toc{
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.toc a{
+  text-decoration: none;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(0,0,0,.03);
+  margin: 8px 0;
+}
+body.night-glasses .toc a{
+  border-color: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+}
+.toc a:hover{background: rgba(164,0,30,.06); border-color: rgba(164,0,30,.16)}
+.toc small{color: var(--muted)}
+
+/* ====== إضافات: حفظ المقال ====== */
+.article-tools{
+  display:flex;
+  gap:10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.save-btn{
+  width: auto;
+  flex: 1;
+  min-width: 170px;
+}
+.saved-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  border: 1px solid rgba(76,175,80,.28);
+  background: rgba(76,175,80,.12);
+  color: #2e7d32;
+}
+.saved-chip[hidden]{display:none !important}
+
+/* ====== إضافات: Modal “العدد القادم” ====== */
+.modal-backdrop{
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.55);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding: 18px;
+  z-index: 9999;
+}
+.modal-backdrop.is-open{display:flex}
+.modal{
+  width: min(560px, 100%);
+  background: var(--paper);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+.modal h3{
+  margin: 0 0 8px;
+  font-family:"Newsreader","Times New Roman",serif;
+}
+.modal p{color: var(--muted)}
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top: 12px;
+}
+.modal-actions .btn{width:auto; flex:1}
+
+/* ====== إضافات: عجلة الحظ ====== */
+.wheel-wrap{
+  display:grid;
+  gap:12px;
+  align-items:center;
+}
+.wheel-canvas{
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: #fff;
+}
+.wheel-result{
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(0,0,0,.04);
+  font-weight: 900;
+  text-align:center;
+}
+
+/* ====== تذييلك + إضافة روابط وأزرار إضافية أسفل (بدون لمس أزرار الأعلى) ====== */
 .footer{
   max-width: 1200px;
   margin: 0 auto 26px;
   padding: 0 16px;
+  position: relative;
+  z-index: 1;
 }
 .footer-inner{
   background: var(--paper);
@@ -301,8 +459,36 @@ li{margin: 6px 0}
 }
 @media (max-width: 860px){ .footer-inner{grid-template-columns: 1fr} }
 
+.footer-links{
+  display:flex;
+  gap:10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.footer-links a{
+  text-decoration:none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(0,0,0,.03);
+  font-weight: 900;
+  font-size: 13px;
+}
+body.night-glasses .footer-links a{
+  border-color: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+}
+.footer-links a:hover{background: rgba(164,0,30,.06); border-color: rgba(164,0,30,.16)}
+
+.footer-cta{
+  margin-top: 12px;
+  display:flex;
+  justify-content:center;
+}
+
+/* ====== طباعة ====== */
 @media print{
-  .nav, .sidebar, .btn, .pill-btn, .footer{display:none !important}
+  .nav, .sidebar, .btn, .pill-btn, .footer, .modal-backdrop{display:none !important}
   body{background:#fff}
   .layout{grid-template-columns: 1fr}
   .collapsible[hidden]{display:block !important}
