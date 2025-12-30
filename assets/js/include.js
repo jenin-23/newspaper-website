@@ -35,7 +35,7 @@
     <a class="nav-link ${active==='special'?'active':''}" href="special.html">محتوى خاص</a>
 
     <button class="pill-btn" type="button" id="night-toggle" title="فلتر النظارة الصفراء">
-      🟡 قارئ ليلي
+      🟡 جرب نظارة احمد
     </button>
   </nav>`;
 
@@ -57,7 +57,7 @@
         <h4>معلومات الاتصال</h4>
         <p class="muted">${location}</p>
         <p class="muted">هاتف الجريدة / الإعلانات: <strong dir="ltr">+9621432787</strong></p>
-        <p class="muted">للطوارئ: “احكي لبسْبوس”</p>
+        <p class="muted"> كل عام و احمد بألف خير</p>
       </div>
 
       <div>
@@ -68,8 +68,7 @@
     </div>
 
     <div class="footer-cta">
-      <a class="nav-link" href="contact.html" style="text-decoration:none">اتصل بنا (آخر الصفحة… مش فوق)</a>
-    </div>
+      <a class="nav-link" href="contact.html" style="text-decoration:none">للتواصل.. اذا في اشي مش عاجبك
 
     <div class="footer-bottom">
       <p>© 2026 جريدة الهرج والمرج. جميع الحقوق محفوظة.</p>
@@ -80,7 +79,7 @@
   <div class="modal-backdrop" id="next-issue-modal" role="dialog" aria-modal="true" aria-labelledby="next-issue-title" aria-hidden="true">
     <div class="modal">
       <h3 id="next-issue-title">🔔 تذكير بسيط من هيئة التحرير</h3>
-      <p>العدد القادم قادم… بس مش أكيد إمتى. (إحنا بنشتغل على توقيت “دقيقة أحمد”).</p>
+      <p>العدد القادم قادم… بس مش أكيد متى. .</p>
       <p class="muted">إذا شفت الرسالة هاي: معناته أنت قارئ وفيّ… أو لسا فاتح الصفحة بالغلط.</p>
       <div class="modal-actions">
         <button class="btn btn-soft" type="button" id="next-issue-close">تمام… فهمت</button>
