@@ -164,7 +164,7 @@
     const btn = document.getElementById("night-toggle");
     if (!btn) return;
     const on = document.body.classList.contains("night-glasses");
-    btn.textContent = on ? "🟡 قارئ نهاري" : "🟡 قارئ ليلي";
+    btn.textContent = on ? "🟡اشلح النظارة" : "🟡 جرب نظارة احمد";
   });
 
   // =========================================================
@@ -288,7 +288,7 @@
         if (out) {
           out.hidden = false;
           out.dataset.tone = "warn";
-          out.textContent = "الرسالة فاضية… زي وعود 'دقيقة وبرد'. اكتب سطرين على الأقل.";
+          out.textContent = " الرسالة فاضية… زي وعودك. اكتب سطرين على الأقل معلش بدنا نغلبك .";
         }
         return;
       }
@@ -414,7 +414,7 @@
     spinBtn.addEventListener("click", () => {
       if (spinning) return;
       spinning = true;
-      out.textContent = "…العجلة بتفكر (زي أحمد قبل ما يرد)";
+      out.textContent = "… اصبر العجلة بتفكر )";
       out.dataset.tone = "neutral";
 
       const extra = (Math.random() * Math.PI * 2);
