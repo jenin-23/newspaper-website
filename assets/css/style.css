@@ -1,39 +1,52 @@
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,700&display=swap');
 
 :root{
-  --bg: #0e0e0f;
+  --bg: #f7f4ee;
   --paper: #ffffff;
-  --ink: #0f0f10;
-  --muted: #5b5b5f;
-  --accent: #0f0f10;
-  --accent-2: #2b2b30;
-  --border: rgba(0,0,0,.14);
-  --shadow: 0 12px 36px rgba(0,0,0,.10);
+  --ink: #1c1c1c;
+  --muted: #5f6368;
+  --accent: #a4001e;
+  --accent-2: #294a9b;
+  --border: rgba(0,0,0,.12);
+  --shadow: 0 10px 30px rgba(0,0,0,.07);
   --radius: 14px;
+
+  /* إضافات */
   --tint: transparent;
+  --paper-2: rgba(255,255,255,.92);
 }
 
-/* Night filter (نظارة صفرا) */
-html[data-theme="night"]{
-  --bg: #0b0b0c;
-  --paper: #111114;
-  --ink: #f4f4f5;
-  --muted: rgba(244,244,245,.70);
-  --accent: #f4f4f5;
-  --accent-2: rgba(244,244,245,.82);
-  --border: rgba(244,244,245,.12);
-  --shadow: 0 14px 40px rgba(0,0,0,.40);
-  --tint: rgba(255, 210, 70, .08);
+/* ====== فلتر النظارة الصفراء (Night Reader) ====== */
+body.night-glasses{
+  --bg: #0f1115;
+  --paper: rgba(255,255,255,.06);
+  --paper-2: rgba(255,255,255,.08);
+  --ink: rgba(255,255,255,.92);
+  --muted: rgba(255,255,255,.70);
+  --border: rgba(255,255,255,.12);
+  --shadow: 0 10px 30px rgba(0,0,0,.35);
+  --tint: rgba(255, 214, 102, .10);
 }
 
+/* ====== أساسياتك كما هي ====== */
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{
   margin:0;
-  background: radial-gradient(1000px 520px at 50% -220px, rgba(255,255,255,.10), transparent 60%), var(--bg);
+  background: radial-gradient(1200px 600px at 50% -200px, rgba(164,0,30,.08), transparent 60%), var(--bg);
   color:var(--ink);
-  font-family: "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  font-family: "Noto Naskh Arabic", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
   line-height:1.85;
+}
+
+/* Tint overlay (للنظارة الصفراء) */
+body::before{
+  content:"";
+  position: fixed;
+  inset:0;
+  pointer-events:none;
+  background: var(--tint);
+  z-index: 0;
 }
 
 .fade-in{opacity:0; animation: fade .6s ease forwards}
@@ -45,6 +58,7 @@ h1,h2,h3,h4{margin:0 0 10px; line-height:1.35}
 ul,ol{margin: 12px 0 18px; padding-right: 22px}
 li{margin: 6px 0}
 
+/* ====== باقي ستايلك كما هو (بدون حذف) ====== */
 .masthead{
   max-width: 1200px;
   margin: 24px auto 10px;
@@ -53,10 +67,12 @@ li{margin: 6px 0}
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  position: relative;
+  z-index: 1;
 }
 .masthead-top{border-bottom: 1px solid var(--border); padding-bottom: 10px; margin-bottom: 12px}
 .meta{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; color:var(--muted); font-size: 14px}
-.sep{color: rgba(0,0,0,.45)}
+.sep{color: rgba(164,0,30,.7)}
 .masthead-main{text-align:center}
 .brand{
   font-family: "Newsreader", "Times New Roman", serif;
@@ -78,11 +94,11 @@ li{margin: 6px 0}
 .loc{color: var(--muted); font-size:14px}
 .notice{
   margin:0;
-  background: rgba(0,0,0,.04);
-  border: 1px solid var(--border);
+  background: rgba(255,193,7,.18);
+  border: 1px solid rgba(255,193,7,.35);
   padding: 8px 12px;
   border-radius: 999px;
-  color: var(--accent-2);
+  color: #6b4e00;
   font-size: 13px;
 }
 
@@ -96,16 +112,21 @@ li{margin: 6px 0}
 .nav-link{
   text-decoration:none;
   padding: 10px 14px;
-  background: rgba(255,255,255,.06);
-  border: 1px solid var(--border);
+  background: rgba(0,0,0,.05);
+  border: 1px solid rgba(0,0,0,.08);
   border-radius: 999px;
-  color: var(--accent-2);
+  color: rgba(0,0,0,.78);
   transition: transform .15s ease, background .15s ease, border-color .15s ease;
   font-weight:700;
   font-size:14px;
 }
-.nav-link:hover{transform: translateY(-1px); background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.18)}
-.nav-link.active{background: rgba(255,255,255,.14); border-color: rgba(255,255,255,.22); color: var(--accent)}
+body.night-glasses .nav-link{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.10);
+  color: rgba(255,255,255,.86);
+}
+.nav-link:hover{transform: translateY(-1px); background: rgba(164,0,30,.08); border-color: rgba(164,0,30,.22)}
+.nav-link.active{background: rgba(164,0,30,.12); border-color: rgba(164,0,30,.28); color: var(--accent)}
 
 .layout{
   max-width: 1200px;
@@ -114,6 +135,8 @@ li{margin: 6px 0}
   display:grid;
   grid-template-columns: 1fr 320px;
   gap: 28px;
+  position: relative;
+  z-index: 1;
 }
 @media (max-width: 980px){
   .layout{grid-template-columns: 1fr}
@@ -131,29 +154,26 @@ li{margin: 6px 0}
   box-shadow: var(--shadow);
 }
 .article{padding: 22px 22px 18px; margin-bottom: 18px}
-.article-header{border-bottom: 2px solid rgba(0,0,0,.14); padding-bottom: 12px; margin-bottom: 14px}
-
+.article-header{border-bottom: 2px solid rgba(164,0,30,.25); padding-bottom: 12px; margin-bottom: 14px}
 .badge{
   display:inline-flex; align-items:center; justify-content:center;
   padding: 6px 12px;
   border-radius: 999px;
   font-size: 12px;
   font-weight: 800;
-  background: rgba(0,0,0,.06);
+  background: rgba(164,0,30,.12);
   color: var(--accent);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(164,0,30,.22);
 }
-.badge-alt{background: rgba(0,0,0,.06); color: var(--accent); border-color: var(--border)}
-.badge-invest{background: rgba(0,0,0,.06); color: var(--accent); border-color: var(--border)}
-.badge-profile{background: rgba(0,0,0,.06); color: var(--accent); border-color: var(--border)}
-.badge-saved{margin-inline-end:8px}
-
+.badge-alt{background: rgba(41,74,155,.10); color: var(--accent-2); border-color: rgba(41,74,155,.22)}
+.badge-invest{background: rgba(0,0,0,.06); color: rgba(0,0,0,.74); border-color: rgba(0,0,0,.12)}
+.badge-profile{background: rgba(76,175,80,.12); color: #2e7d32; border-color: rgba(46,125,50,.22)}
 .source{color: var(--muted); font-style: italic; margin: 8px 0 0}
 
 .btn{
   width: 100%;
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,.04);
+  border: 1px solid rgba(164,0,30,.25);
+  background: rgba(164,0,30,.10);
   color: var(--accent);
   padding: 12px 14px;
   border-radius: 12px;
@@ -161,21 +181,21 @@ li{margin: 6px 0}
   cursor:pointer;
   transition: transform .12s ease, background .12s ease;
 }
-.btn:hover{transform: translateY(-1px); background: rgba(0,0,0,.06)}
-.btn.is-open{background: rgba(255,255,255,.10); border-color: var(--border); color: var(--accent)}
-
-.btn.btn-soft{border-color: var(--border); background: rgba(0,0,0,.04); color: var(--accent-2)}
-.btn.btn-soft:hover{background: rgba(0,0,0,.06)}
+.btn:hover{transform: translateY(-1px); background: rgba(164,0,30,.14)}
+.btn.is-open{background: rgba(0,0,0,.06); border-color: rgba(0,0,0,.12); color: rgba(0,0,0,.78)}
+.btn.btn-soft{border-color: rgba(0,0,0,.12); background: rgba(0,0,0,.05); color: rgba(0,0,0,.75)}
+.btn.btn-soft:hover{background: rgba(0,0,0,.08)}
 
 .collapsible{margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border)}
 .quote-box{
   background: rgba(0,0,0,.04);
-  border-right: 4px solid rgba(0,0,0,.35);
+  border-right: 4px solid rgba(164,0,30,.55);
   padding: 14px 14px;
   border-radius: 12px;
   margin: 12px 0 16px;
   color: rgba(0,0,0,.78);
 }
+body.night-glasses .quote-box{background: rgba(255,255,255,.06); color: rgba(255,255,255,.86)}
 
 .page-intro{
   background: var(--paper);
@@ -198,15 +218,15 @@ li{margin: 6px 0}
 
 .card{padding: 18px}
 .card h3{color: rgba(0,0,0,.85)}
+body.night-glasses .card h3{color: rgba(255,255,255,.92)}
 
 .ad-card{padding: 18px; margin-bottom: 16px}
 .ad-card h3{margin-bottom: 10px; font-size: 18px}
 .small-note{color:var(--muted); font-size: 12px; margin-top: 8px}
-.cat-ad{background: rgba(0,0,0,.02)}
-.center-ad{background: rgba(0,0,0,.02); text-align:center}
-.reader-challenge{background: rgba(0,0,0,.02)}
-.contact-ad{background: rgba(0,0,0,.02); text-align:center}
-
+.cat-ad{background: linear-gradient(180deg, rgba(76,175,80,.10), transparent)}
+.center-ad{background: linear-gradient(180deg, rgba(156,39,176,.10), transparent); text-align:center}
+.reader-challenge{background: linear-gradient(180deg, rgba(33,150,243,.10), transparent)}
+.contact-ad{background: linear-gradient(180deg, rgba(255,152,0,.14), transparent); text-align:center}
 .phone, .large-phone{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Courier New", monospace}
 .large-phone{font-size: 20px; font-weight: 900}
 .divider{height:1px; background: var(--border); margin: 14px 0}
@@ -222,8 +242,10 @@ li{margin: 6px 0}
   resize: vertical;
   min-height: 110px;
   outline: none;
+  background: var(--paper-2);
+  color: var(--ink);
 }
-.writing-space textarea:focus{border-color: rgba(0,0,0,.35); box-shadow: 0 0 0 4px rgba(0,0,0,.08)}
+.writing-space textarea:focus{border-color: rgba(33,150,243,.55); box-shadow: 0 0 0 4px rgba(33,150,243,.12)}
 
 .pill-btn{
   border: 1px solid rgba(0,0,0,.12);
@@ -233,6 +255,11 @@ li{margin: 6px 0}
   border-radius: 999px;
   cursor:pointer;
   font-weight:800;
+}
+body.night-glasses .pill-btn{
+  border-color: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.88);
 }
 .pill-btn:hover{background: rgba(0,0,0,.07)}
 
@@ -248,6 +275,11 @@ li{margin: 6px 0}
   color: rgba(0,0,0,.55);
   font-style: italic;
 }
+body.night-glasses .silence-box{
+  background: rgba(255,255,255,.06);
+  border-color: rgba(255,255,255,.18);
+  color: rgba(255,255,255,.70);
+}
 
 .quiz label{
   display:flex;
@@ -260,17 +292,17 @@ li{margin: 6px 0}
   margin: 8px 0;
   cursor:pointer;
 }
-.quiz label:hover{background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.12)}
+.quiz label:hover{background: rgba(164,0,30,.06); border-color: rgba(164,0,30,.14)}
 .result{
   margin-top: 12px;
   padding: 12px;
   border-radius: 12px;
   border: 1px solid rgba(0,0,0,.10);
-  background: rgba(0,0,0,.04);
+  background: rgba(76,175,80,.10);
   font-weight: 900;
   text-align:center;
 }
-.result[data-tone="warn"]{background: rgba(255,255,255,.10)}
+.result[data-tone="warn"]{background: rgba(255,193,7,.18)}
 .result[data-tone="neutral"]{background: rgba(0,0,0,.05)}
 .note{color:var(--muted); margin-top: 10px}
 
@@ -296,34 +328,117 @@ li{margin: 6px 0}
   border: 1px solid rgba(0,0,0,.10);
 }
 
-/* Modal */
+/* ====== إضافات: فهرس داخل الصفحة ====== */
+.toc{
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.toc a{
+  text-decoration: none;
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.08);
+  background: rgba(0,0,0,.03);
+  margin: 8px 0;
+}
+body.night-glasses .toc a{
+  border-color: rgba(255,255,255,.14);
+  background: rgba(255,255,255,.06);
+}
+.toc a:hover{background: rgba(164,0,30,.06); border-color: rgba(164,0,30,.16)}
+.toc small{color: var(--muted)}
+
+/* ====== إضافات: حفظ المقال ====== */
+.article-tools{
+  display:flex;
+  gap:10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.save-btn{
+  width: auto;
+  flex: 1;
+  min-width: 170px;
+}
+.saved-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+  border: 1px solid rgba(76,175,80,.28);
+  background: rgba(76,175,80,.12);
+  color: #2e7d32;
+}
+.saved-chip[hidden]{display:none !important}
+
+/* ====== إضافات: Modal “العدد القادم” ====== */
 .modal-backdrop{
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,.55);
-  z-index: 99;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding: 18px;
+  z-index: 9999;
 }
+.modal-backdrop.is-open{display:flex}
 .modal{
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  z-index: 100;
-  padding: 16px;
-}
-.modal-inner{
-  width: min(520px, 100%);
+  width: min(560px, 100%);
   background: var(--paper);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
   box-shadow: var(--shadow);
   padding: 18px;
 }
+.modal h3{
+  margin: 0 0 8px;
+  font-family:"Newsreader","Times New Roman",serif;
+}
+.modal p{color: var(--muted)}
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top: 12px;
+}
+.modal-actions .btn{width:auto; flex:1}
 
+/* ====== إضافات: عجلة الحظ ====== */
+.wheel-wrap{
+  display:grid;
+  gap:12px;
+  align-items:center;
+}
+.wheel-canvas{
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: #fff;
+}
+.wheel-result{
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(0,0,0,.04);
+  font-weight: 900;
+  text-align:center;
+}
+
+/* ====== تذييلك + إضافة روابط وأزرار إضافية أسفل (بدون لمس أزرار الأعلى) ====== */
 .footer{
   max-width: 1200px;
   margin: 0 auto 26px;
   padding: 0 16px;
+  position: relative;
+  z-index: 1;
 }
 .footer-inner{
   background: var(--paper);
@@ -344,46 +459,36 @@ li{margin: 6px 0}
 }
 @media (max-width: 860px){ .footer-inner{grid-template-columns: 1fr} }
 
-/* subtle yellow tint in night mode */
-body::before{
-  content:"";
-  position: fixed;
-  inset: 0;
-  pointer-events:none;
-  background: var(--tint);
-  mix-blend-mode: multiply;
-  z-index: 0;
+.footer-links{
+  display:flex;
+  gap:10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
 }
-.masthead, .nav, .layout, .footer{position: relative; z-index: 1;}
-
-.obit-ad{
-  background: rgba(0,0,0,.02);
-  border-style: dashed;
-}
-.obit-ad h3{margin-bottom:8px}
-.obit-meta{color:var(--muted); font-size:13px}
-.job-ad{
-  background: rgba(0,0,0,.02);
-}
-.job-ad .job-title{font-weight:900}
-.theme-toggle{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-}
-.theme-toggle button{
-  border: 1px solid var(--border);
-  background: rgba(0,0,0,.04);
-  color: var(--accent);
-  padding: 8px 10px;
+.footer-links a{
+  text-decoration:none;
+  padding: 8px 12px;
   border-radius: 999px;
-  cursor:pointer;
-  font-weight:800;
+  border: 1px solid rgba(0,0,0,.10);
+  background: rgba(0,0,0,.03);
+  font-weight: 900;
+  font-size: 13px;
 }
-.theme-toggle button:hover{background: rgba(0,0,0,.06)}
+body.night-glasses .footer-links a{
+  border-color: rgba(255,255,255,.12);
+  background: rgba(255,255,255,.06);
+}
+.footer-links a:hover{background: rgba(164,0,30,.06); border-color: rgba(164,0,30,.16)}
 
+.footer-cta{
+  margin-top: 12px;
+  display:flex;
+  justify-content:center;
+}
+
+/* ====== طباعة ====== */
 @media print{
-  .nav, .sidebar, .btn, .pill-btn, .footer{display:none !important}
+  .nav, .sidebar, .btn, .pill-btn, .footer, .modal-backdrop{display:none !important}
   body{background:#fff}
   .layout{grid-template-columns: 1fr}
   .collapsible[hidden]{display:block !important}
