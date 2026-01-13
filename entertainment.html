@@ -31,49 +31,113 @@
         <p>نصيحة اليوم: لا تشرح أكثر مما يجب.</p>
       </article>
 
-      <!-- ✅ عجلة الحظ -->
-      <article class="card">
-        <h3>🎡 عجلة الحظ </h3>
-        <p class="muted">لفّها… وإذا طلعت “نام”… اعتبرها رسالة كونية.</p>
-        <div class="wheel-wrap">
-          <canvas class="wheel-canvas" id="wheel-canvas" aria-label="عجلة الحظ"></canvas>
-          <button class="btn" type="button" id="wheel-spin">لفّ العجلة</button>
-          <div class="wheel-result" id="wheel-output" data-tone="neutral">جاهزين… ولا لسا؟</div>
-        </div>
-      </article>
-
-      <!-- باقي كروت الترفيه عندك كما هي (انسخها كما كانت) -->
       <article class="card">
         <h3>لعبة الصمت</h3>
         <p>هذه المساحة مخصّصة لشي لم يُقال:</p>
         <div class="silence-box" aria-hidden="true">... ... ...</div>
-        <p><small>اختر الإجابة الأقرب لك:</small></p>
-        <div class="quiz" data-quiz="1">
+
+        <div class="quiz" data-quiz-id="silence">
           <p>1. عندما ترى منشور "أنا حرّ برأيي":</p>
-          <label><input type="radio" name="quiz1-q1"> تحترمه</label>
-          <label><input type="radio" name="quiz1-q1"> تناقشه</label>
-          <label><input type="radio" name="quiz1-q1"> تعرف أنه كاذب وتكمل سكرول</label>
+          <label><input type="radio" name="q-s1" value="2"> تحترمه</label>
+          <label><input type="radio" name="q-s1" value="1"> تناقشه</label>
+          <label><input type="radio" name="q-s1" value="0"> تعرف أنه كاذب وتكمل سكرول</label>
 
           <p>2. عندما تسمع شخصاً يقول "أنا مش عنصري بس...":</p>
-          <label><input type="radio" name="quiz1-q2"> تنتظر النهاية</label>
-          <label><input type="radio" name="quiz1-q2"> تغادر المكان</label>
-          <label><input type="radio" name="quiz1-q2"> تفهم القصة كاملة دون سماعها</label>
+          <label><input type="radio" name="q-s2" value="1"> تنتظر النهاية</label>
+          <label><input type="radio" name="q-s2" value="2"> تغادر المكان</label>
+          <label><input type="radio" name="q-s2" value="0"> تفهم القصة كاملة دون سماعها</label>
 
           <p>3. عندما ينجح شخص أقل منك كفاءة:</p>
-          <label><input type="radio" name="quiz1-q3"> تفرح</label>
-          <label><input type="radio" name="quiz1-q3"> تغار</label>
-          <label><input type="radio" name="quiz1-q3"> تعيد تقييم مفهوم العدالة الكونية</label>
+          <label><input type="radio" name="q-s3" value="2"> تفرح</label>
+          <label><input type="radio" name="q-s3" value="1"> تغار</label>
+          <label><input type="radio" name="q-s3" value="0"> تعيد تقييم مفهوم العدالة الكونية</label>
 
-          <button class="btn" type="button" data-quiz-result="1">احصل على النتيجة</button>
+          <button class="btn" type="button" data-quiz-submit data-quiz-output="quiz-result-1">احصل على النتيجة</button>
           <div id="quiz-result-1" class="result" hidden></div>
-          <p class="note"><small>النتيجة: إذا أكملت الاختبار، أنت غير جاهز لمعرفة النتيجة.</small></p>
+          <p class="note"><small>ملاحظة: الصمت مش دليل نضج… أحياناً دليل إنك خلّصت حكي لهذه السنة.</small></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>لعبة الرد المتأخر</h3>
+        <p>اختر كيف ستتعامل مع هذه المواقف:</p>
+
+        <div class="quiz" data-quiz-id="late-reply">
+          <p>1. وصلتك رسالة من صديق قديم:</p>
+          <label><input type="radio" name="q-l1" value="0"> ترد فوراً بحماس</label>
+          <label><input type="radio" name="q-l1" value="1"> تقرأ وتفكر بالرد لاحقاً (ثم تنسى)</label>
+          <label><input type="radio" name="q-l1" value="2"> ترد بعد أسبوعين بـ"وينك؟"</label>
+
+          <p>2. شريكك يشتكي من قلة التواصل:</p>
+          <label><input type="radio" name="q-l2" value="0"> تعتذر وتعد بالتحسين</label>
+          <label><input type="radio" name="q-l2" value="2"> تقول "الطاقة منخفضة اليوم"</label>
+          <label><input type="radio" name="q-l2" value="1"> تنام</label>
+
+          <p>3. مديرك يطلب تحديثاً عن العمل:</p>
+          <label><input type="radio" name="q-l3" value="0"> ترد مفصلاً</label>
+          <label><input type="radio" name="q-l3" value="1"> ترد بـ"أعمل عليه"</label>
+          <label><input type="radio" name="q-l3" value="2"> تتجاهل حتى ينسى</label>
+
+          <button class="btn" type="button" data-quiz-submit data-quiz-output="quiz-result-2">اكتشف شخصيتك</button>
+          <div id="quiz-result-2" class="result" hidden></div>
+          <p class="note"><small>اللعبة مستوحاة من واقع حياة أحمد وجنين</small></p>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>اختبار البطارية الاجتماعية</h3>
+        <p class="muted">لليوم اللي بتصحى فيه وتقول: "مش قادر حتى أشرح إني مش قادر".</p>
+
+        <div class="quiz" data-quiz-id="social-battery">
+          <p>1. عزيمة مفاجئة من غير تحضير:</p>
+          <label><input type="radio" name="q-b1" value="2"> أكيد! يلا نعيش</label>
+          <label><input type="radio" name="q-b1" value="1"> ممكن… إذا ما طولت</label>
+          <label><input type="radio" name="q-b1" value="0"> بعتذر وأختفي</label>
+
+          <p>2. حدا قال لك: "خلينا نحكي شوي":</p>
+          <label><input type="radio" name="q-b2" value="0"> قلبي وقع… شو في؟</label>
+          <label><input type="radio" name="q-b2" value="1"> بحاول أضل طبيعي</label>
+          <label><input type="radio" name="q-b2" value="2"> ممتاز. أنا جاهز (بكذب)</label>
+
+          <p>3. بعد ساعتين سوشال:</p>
+          <label><input type="radio" name="q-b3" value="2"> لسا دافي وبدي أكمل</label>
+          <label><input type="radio" name="q-b3" value="1"> أحتاج استراحة خمس دقايق (يعني نص ساعة)</label>
+          <label><input type="radio" name="q-b3" value="0"> بدي أرجع البيت… الآن</label>
+
+          <button class="btn" type="button" data-quiz-submit data-quiz-output="quiz-result-3">اعرف بطاريتك</button>
+          <div id="quiz-result-3" class="result" hidden></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h3>اختبار "نصايح الحياة"</h3>
+        <p class="muted">اختبار غير معتمد من أي جهة، وهذا بحد ذاته مصدر ثقة.</p>
+
+        <div class="quiz" data-quiz-id="life-advice">
+          <p>1. حدا حكى لك: "بدنا نقعد قعدة صراحة":</p>
+          <label><input type="radio" name="q-a1" value="0"> بحط نقاط وبعمل خطة</label>
+          <label><input type="radio" name="q-a1" value="1"> بسمع… وبمثل إني فاهم</label>
+          <label><input type="radio" name="q-a1" value="2"> بعمل حالـي نعسان</label>
+
+          <p>2. أول ما يصير في دراما بجروب:</p>
+          <label><input type="radio" name="q-a2" value="0"> بدخل أحل</label>
+          <label><input type="radio" name="q-a2" value="1"> بتفرج بصمت</label>
+          <label><input type="radio" name="q-a2" value="2"> بطلع من الجروب وبحكي: بالغلط</label>
+
+          <p>3. لما تخلص طاقتك:</p>
+          <label><input type="radio" name="q-a3" value="2"> بقولها بصراحة</label>
+          <label><input type="radio" name="q-a3" value="1"> بلمّح… وبتمنى يفهموا</label>
+          <label><input type="radio" name="q-a3" value="0"> بكمل عادي وبنقهر لحالي</label>
+
+          <button class="btn" type="button" data-quiz-submit data-quiz-output="quiz-result-4">طلع النتيجة</button>
+          <div id="quiz-result-4" class="result" hidden></div>
         </div>
       </article>
 
       <article class="card">
         <h3>اختبار مستوى الصبر</h3>
         <p>كم مرة يمكنك قراءة هذا النص قبل أن تشعر بالملل؟</p>
-        <blockquote class="quote-box">"انتظر دقيقة... لا، حقاً انتظر دقيقة…"</blockquote>
+        <blockquote class="quote-box">"انتظر دقيقة... لا، حقاً انتظر دقيقة. ليست دقيقة أحمد (٤٥ دقيقة)، بل دقيقة حقيقية. لا تزال تنتظر؟ جيد. الآن تخيل أنك تنتظر أحمد لينزل من البيت. لا يزال؟ مبروك! لديك صبر أسطوري."</blockquote>
         <div class="counter">
           <button class="btn btn-soft" type="button" id="counter-btn">قرأت مرة أخرى</button>
           <p id="counter-display" class="counter-num">0</p>
